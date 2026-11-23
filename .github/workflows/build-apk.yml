@@ -33,9 +33,10 @@ jobs:
 
       - name: Install Android NDK & build-tools
         run: |
-          sdkmanager "platforms;android-34" "build-tools;34.0.0" "ndk;26.1.10909125"
-          echo "NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125" >> "$GITHUB_ENV"
-          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125" >> "$GITHUB_ENV"
+         SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" -name "sdkmanager" -type f 2>/dev/null | head -n 1)
+         echo "Using sdkmanager: $SDKMANAGER"
+         yes | "$SDKMANAGER" --licenses || true
+         "$SDKMANAGER" "platforms;android-34" "build-tools;34.0.0" "ndk;26.1.10909125"
 
       - name: Install JS tooling
         run: npm install
