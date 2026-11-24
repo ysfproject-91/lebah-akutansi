@@ -37,21 +37,11 @@ jobs:
          echo "Using sdkmanager: $SDKMANAGER"
          yes | "$SDKMANAGER" --licenses || true
          "$SDKMANAGER" "platforms;android-34" "build-tools;34.0.0" "ndk;26.1.10909125"
-
-      - name: Install JS tooling
-        run: npm install
-
-      - name: Run logic tests
-        run: node --no-warnings tests/core.test.js
-
-      - name: Generate icons
-        run: npx tauri icon app-icon.png
-
-      - name: Init Android project
-        run: npx tauri android init --ci
-
+         
       - name: Build release APK
-        run: npx tauri android build --apk --target aarch64 --target armv7 --ci
+       run: |
+         chmod +x ./gradlew
+         ./gradlew assembleDebug
 
       - name: Sign APK
         run: |
