@@ -38,10 +38,11 @@ jobs:
          yes | "$SDKMANAGER" --licenses || true
          "$SDKMANAGER" "platforms;android-34" "build-tools;34.0.0" "ndk;26.1.10909125"
          
-      - name: Build release APK
-        run: |
-          chmod +x ./gradlew
-          ./gradlew assembleDebug
+      - name: Install JS dependencies
+        run: npm install
+        
+      - name: Build Tauri Android APK
+        run: npm run tauri android build -- --apk
 
       - name: Sign APK
         run: |
